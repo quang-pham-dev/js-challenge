@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Traversal Example</title>
+    <style>
+      .highlight {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <h1>DOM Traversal</h1>
+      <ul id="parent-list">
+        <li>Item 1</li>
+        <li>
+          Item 2
+          <ul>
+            <li>Subitem 2.1</li>
+            <li>Subitem 2.2</li>
+          </ul>
+        </li>
+        <li>Item 3</li>
+      </ul>
+      <button id="traverseBtn">Traverse DOM</button>
+    </div>
+
+    <script>
+      // DOM Traversal function
+      function traverseDOM(element, callback) {
+        callback(element);
+        for (let i = 0; i < element.children.length; i++) {
+          traverseDOM(element.children[i], callback);
+        }
+      }
+
+      // Highlight function
+      function highlight(element) {
+        element.classList.add("highlight");
+        setTimeout(() => {
+          element.classList.remove("highlight");
+        }, 500);
+      }
+
+      // Event listener for the traverse button
+      document
+        .getElementById("traverseBtn")
+        .addEventListener("click", function () {
+          const root = document.getElementById("root");
+          traverseDOM(root, (element) => {
+            console.log(element.tagName);
+            highlight(element);
+          });
+        });
+
+      /**
+       * Explanation:
+       *
+       * 1. DOM Structure:
+       *    We have a simple HTML structure with nested elements to demonstrate traversal.
+       *
+       * 2. CSS:
+       *    A .highlight class is defined to visually show which element is being traversed.
+       *
+       * 3. traverseDOM Function:
+       *    - This is a recursive function that traverses the DOM tree.
+       *    - It takes two parameters: the current element and a callback function.
+       *    - It first calls the callback on the current element.
+       *    - Then it recursively calls itself on each child of the current element.
+       *
+       * 4. highlight Function:
+       *    - Adds the 'highlight' class to an element.
+       *    - Uses setTimeout to remove the class after 500ms, creating a flash effect.
+       *
+       * 5. Event Listener:
+       *    - Attached to the "Traverse DOM" button.
+       *    - When clicked, it starts the traversal from the root element.
+       *    - For each element, it logs the tag name and highlights the element.
+       *
+       * This implementation demonstrates:
+       * - Depth-first traversal of the DOM tree
+       * - Use of recursion in DOM manipulation
+       * - Dynamic styling for visual feedback
+       * - Practical application of callbacks in traversal algorithms
+       *
+       * Note: This is a simple example. In a production environment, consider:
+       * - Performance optimizations for large DOM trees
+       * - More sophisticated traversal algorithms (e.g., breadth-first)
+       * - Error handling and edge cases
+       */
+    </script>
+  </body>
+</html>

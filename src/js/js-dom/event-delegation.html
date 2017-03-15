@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprehensive Event Delegation Example</title>
+    <style>
+      #task-list {
+        padding: 20px;
+        border: 1px solid #ddd;
+      }
+      li {
+        cursor: pointer;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .delete-btn {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .edit-btn {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Comprehensive Event Delegation Demo</h1>
+    <ul id="task-list">
+      <li>
+        <span class="task-text">Task 1</span>
+        <div>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </li>
+      <li>
+        <span class="task-text">Task 2</span>
+        <div>
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </li>
+    </ul>
+    <input type="text" id="new-task-input" placeholder="Enter a new task" />
+    <button id="add-task">Add Task</button>
+
+    <script type="text/javascript">
+      // DOM References
+      const taskList = document.getElementById("task-list");
+      const addTaskButton = document.getElementById("add-task");
+      const newTaskInput = document.getElementById("new-task-input");
+
+      /**
+       * Handles all click events on the task list using event delegation
+       * @param {Event} event - The click event object
+       */
+      function handleTaskListClick(event) {
+        const target = event.target;
+        const listItem = target.closest("li");
+
+        if (!listItem) return; // Exit if click is outside of a list item
+
+        if (target.classList.contains("delete-btn")) {
+          handleDelete(listItem);
+        } else if (target.classList.contains("edit-btn")) {
+          handleEdit(listItem);
+        } else if (target.classList.contains("task-text")) {
+          handleToggleComplete(listItem);
+        }
+      }
+
+      /**
+       * Handles the deletion of a task
+       * @param {HTMLElement} listItem - The li element to be deleted
+       */
+      function handleDelete(listItem) {
+        if (confirm("Are you sure you want to delete this task?")) {
+          listItem.remove();
+        }
+      }
+
+      /**
+       * Handles the editing of a task
+       * @param {HTMLElement} listItem - The li element to be edited
+       */
+      function handleEdit(listItem) {
+        const taskText = listItem.querySelector(".task-text");
+        const newText = prompt("Edit task:", taskText.textContent);
+        if (newText !== null) {
+          taskText.textContent = newText;
+        }
+      }
+
+      /**
+       * Toggles the completion status of a task
+       * @param {HTMLElement} listItem - The li element to be toggled
+       */
+      function handleToggleComplete(listItem) {
+        listItem.classList.toggle("completed");
+      }
+
+      /**
+       * Adds a new task to the list
+       */
+      function addNewTask() {
+        const taskText = newTaskInput.value.trim();
+        if (taskText) {
+          const newItem = document.createElement("li");
+          newItem.innerHTML = `
+                    <span class="task-text">${taskText}</span>
+                    <div>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                `;
+          taskList.appendChild(newItem);
+          newTaskInput.value = "";
+        }
+      }
+
+      // Event Listeners
+      taskList.addEventListener("click", handleTaskListClick);
+      addTaskButton.addEventListener("click", addNewTask);
+      newTaskInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") addNewTask();
+      });
+
+      /**
+       * Event Delegation Explanation:
+       *
+       * Event delegation is a technique in JavaScript where we attach a single event listener
+       * to a parent element instead of attaching multiple listeners to individual child elements.
+       * When an event occurs on a child element, it bubbles up to the parent, where it can be handled.
+       *
+       * Benefits of Event Delegation:
+       * 1. Memory Efficiency: Reduces the number of event listeners, saving memory.
+       * 2. Dynamic Elements: Works for dynamically added elements without needing to attach new listeners.
+       * 3. Cleaner Code: Results in more maintainable and less cluttered code.
+       *
+       * In this example:
+       * - We use a single click event listener on the task list (parent element).
+       * - The handler function (handleTaskListClick) determines which element was clicked.
+       * - Based on the clicked element, it calls the appropriate function (delete, edit, or toggle complete).
+       * - This approach allows us to handle events for all tasks, including those added dynamically.
+       *
+       * The code demonstrates:
+       * - Efficient event handling for multiple actions (delete, edit, complete) on list items.
+       * - Dynamic addition of new tasks with full functionality.
+       * - Separation of concerns with individual functions for each action.
+       * - Use of closest() method to find the parent li element, ensuring correct element targeting.
+       *
+       * This implementation showcases a robust, scalable approach to handling complex interactions
+       * in a task list application, leveraging the power of event delegation.
+       */
+    </script>
+  </body>
+</html>

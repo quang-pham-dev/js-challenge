@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Bubbling and Capturing Example</title>
+    <style>
+      div {
+        padding: 20px;
+        margin: 10px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="outer">
+      Outer
+      <div id="middle">
+        Middle
+        <div id="inner">Inner</div>
+      </div>
+    </div>
+
+    <script>
+      // Function to log events
+      function logEvent(event) {
+        console.log(
+          `${event.currentTarget.id} - ${event.type} - ${event.eventPhase}`
+        );
+      }
+
+      // Get references to the elements
+      const outer = document.getElementById("outer");
+      const middle = document.getElementById("middle");
+      const inner = document.getElementById("inner");
+
+      // Add event listeners for both capturing and bubbling phases
+      [outer, middle, inner].forEach((element) => {
+        element.addEventListener("click", logEvent, true); // Capturing phase
+        element.addEventListener("click", logEvent, false); // Bubbling phase (default)
+      });
+
+      /*
+        Event Bubbling and Capturing Explanation:
+
+        1. Event Propagation:
+           - When an event occurs on an element, it doesn't just trigger on that element.
+           - The event "propagates" through the DOM tree in two phases: capturing and bubbling.
+
+        2. Capturing Phase (top-down):
+           - The event starts from the root (window) and moves down to the target element.
+           - Listeners with the 'capture' flag set to true are triggered in this phase.
+
+        3. Target Phase:
+           - The event reaches the target element.
+
+        4. Bubbling Phase (bottom-up):
+           - After reaching the target, the event "bubbles up" back to the root.
+           - Most event listeners are triggered during this phase by default.
+
+        5. addEventListener() method:
+           - Third parameter: 
+             - true: listener is triggered during capturing phase
+             - false (default): listener is triggered during bubbling phase
+
+        6. event.eventPhase property:
+           - 1: Capturing phase
+           - 2: Target phase
+           - 3: Bubbling phase
+
+        7. Stopping Propagation:
+           - event.stopPropagation(): Stops the event from moving to the next element
+           - event.stopImmediatePropagation(): Stops the event and prevents other listeners on the same element
+
+        8. Use Cases:
+           - Capturing: Intercepting events before they reach deeper elements
+           - Bubbling: Efficient event handling for multiple child elements (event delegation)
+
+        This example demonstrates both phases by attaching listeners to nested divs.
+        When clicking the inner div, you'll see events triggered in this order:
+        1. Outer (capturing)
+        2. Middle (capturing)
+        3. Inner (capturing)
+        4. Inner (bubbling)
+        5. Middle (bubbling)
+        6. Outer (bubbling)
+
+        This showcases the complete journey of an event through the DOM tree.
+        */
+    </script>
+  </body>
+</html>

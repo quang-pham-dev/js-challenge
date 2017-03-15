@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Image Example</title>
+    <style>
+      .responsive-image {
+        max-width: 100%;
+        height: auto;
+      }
+      .image-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="image-container">
+      <img
+        src="https://via.placeholder.com/800x400"
+        alt="Responsive Image"
+        class="responsive-image"
+      />
+    </div>
+    <script>
+      function loadResponsiveImage() {
+        const img = document.querySelector(".responsive-image");
+        const container = document.querySelector(".image-container");
+        const containerWidth = container.offsetWidth;
+
+        // Define breakpoints and corresponding image sizes
+        const breakpoints = [
+          { width: 480, size: "480w" },
+          { width: 768, size: "768w" },
+          { width: 1024, size: "1024w" },
+          { width: 1200, size: "1200w" }
+        ];
+
+        // Generate srcset attribute
+        const srcset = breakpoints
+          .map(
+            (bp) =>
+              `https://via.placeholder.com/${bp.width}x${Math.floor(
+                bp.width / 2
+              )} ${bp.size}`
+          )
+          .join(", ");
+
+        img.srcset = srcset;
+        img.sizes = `(max-width: ${containerWidth}px) 100vw, ${containerWidth}px`;
+      }
+
+      // Load responsive image on page load and window resize
+      window.addEventListener("load", loadResponsiveImage);
+      window.addEventListener("resize", loadResponsiveImage);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Singleton Pattern Example</title>
+  </head>
+  <body>
+    <h1>Singleton Pattern Example</h1>
+    <button id="createInstance">Create Instance</button>
+    <div id="output">
+      The instanceId remains the same for all calls, demonstrating that <br />
+      only one instance is ever created and used.
+    </div>
+
+    <script>
+      // Singleton class
+      class Singleton {
+        constructor() {
+          if (Singleton.instance) {
+            return Singleton.instance;
+          }
+          this.instanceId = Math.random().toString(36).substr(2, 9);
+          Singleton.instance = this;
+        }
+
+        getInstanceId() {
+          return this.instanceId;
+        }
+      }
+
+      // Function to create and display instance
+      function createAndDisplayInstance() {
+        const instance = new Singleton();
+        document.getElementById("output").innerHTML += `
+                <p>Instance ID: ${instance.getInstanceId()}</p>
+            `;
+      }
+
+      // Event listener
+      document
+        .getElementById("createInstance")
+        .addEventListener("click", createAndDisplayInstance);
+
+      /**
+       * Singleton Pattern Explanation:
+       *
+       * 1. Purpose:
+       *    The Singleton pattern ensures a class has only one instance and provides
+       *    a global point of access to that instance.
+       *
+       * 2. Implementation:
+       *    - The constructor checks if an instance already exists.
+       *    - If it exists, it returns the existing instance.
+       *    - If not, it creates a new instance and stores it in a static property.
+       *
+       * 3. Benefits:
+       *    - Ensures only one instance of the class exists.
+       *    - Provides a global access point to that instance.
+       *    - Useful for managing shared resources or state.
+       *
+       * 4. Use Cases:
+       *    - Configuration managers
+       *    - Logging services
+       *    - Database connections
+       *    - Caching mechanisms
+       *
+       * 5. Considerations:
+       *    - Can make unit testing more difficult.
+       *    - Violates the Single Responsibility Principle.
+       *    - Should be used judiciously, as global state can lead to tight coupling.
+       *
+       * In this example:
+       * - Clicking the button creates a new Singleton instance.
+       * - The instanceId remains the same for all calls, demonstrating that
+       *   only one instance is ever created and used.
+       */
+    </script>
+  </body>
+</html>

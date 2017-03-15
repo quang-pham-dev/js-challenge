@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Manipulation Example</title>
+  </head>
+  <body>
+    <h1>DOM Manipulation</h1>
+    <div id="container"></div>
+    <button id="addElement">Add Element</button>
+    <button id="modifyElement">Modify Element</button>
+    <button id="removeElement">Remove Element</button>
+
+    <script>
+      // DOM Manipulation Example
+
+      // Function to create a new element
+      function createNewElement() {
+        const newElement = document.createElement("p");
+        newElement.textContent = "This is a new paragraph.";
+        newElement.className = "dynamic-element";
+        document.getElementById("container").appendChild(newElement);
+        console.log("New element added");
+      }
+
+      // Function to modify an existing element
+      function modifyElement() {
+        const elements = document.getElementsByClassName("dynamic-element");
+        if (elements.length > 0) {
+          const lastElement = elements[elements.length - 1];
+          lastElement.style.color = "red";
+          lastElement.textContent += " (Modified)";
+          console.log("Element modified");
+        } else {
+          console.log("No elements to modify");
+        }
+      }
+
+      // Function to remove an element
+      function removeElement() {
+        const container = document.getElementById("container");
+        const elements = container.getElementsByClassName("dynamic-element");
+        if (elements.length > 0) {
+          container.removeChild(elements[elements.length - 1]);
+          console.log("Element removed");
+        } else {
+          console.log("No elements to remove");
+        }
+      }
+
+      // Event listeners for buttons
+      document
+        .getElementById("addElement")
+        .addEventListener("click", createNewElement);
+      document
+        .getElementById("modifyElement")
+        .addEventListener("click", modifyElement);
+      document
+        .getElementById("removeElement")
+        .addEventListener("click", removeElement);
+
+      /**
+       * DOM Manipulation Explanation:
+       *
+       * 1. Creating Elements:
+       *    - Use document.createElement() to create new DOM elements.
+       *    - Set properties like textContent and className.
+       *    - Append to the DOM using appendChild() or insertBefore().
+       *
+       * 2. Modifying Elements:
+       *    - Access elements using methods like getElementById() or getElementsByClassName().
+       *    - Modify properties like style, textContent, or attributes.
+       *    - Can also use classList to add/remove classes.
+       *
+       * 3. Removing Elements:
+       *    - Use removeChild() on the parent element to remove a child.
+       *    - Can also use element.remove() for modern browsers.
+       *
+       * 4. Event Handling:
+       *    - Add event listeners to elements for interactivity.
+       *    - Common events: click, mouseover, keydown, etc.
+       *
+       * 5. Performance Considerations:
+       *    - Minimize DOM manipulations as they can be expensive.
+       *    - Consider using DocumentFragment for batch insertions.
+       *    - Use event delegation for handling multiple similar elements.
+       *
+       * 6. Cross-browser Compatibility:
+       *    - Some methods may not work in older browsers.
+       *    - Consider using feature detection or polyfills if necessary.
+       *
+       * This example demonstrates basic DOM manipulation techniques.
+       * For more complex applications, consider using libraries or frameworks
+       * that provide optimized DOM manipulation methods.
+       */
+    </script>
+  </body>
+</html>

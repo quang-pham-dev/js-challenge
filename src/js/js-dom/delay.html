@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delay Function with CancellablePromise</title>
+  </head>
+  <body>
+    <h1>Delay Function with CancellablePromise</h1>
+    <button id="startBtn">Start Delay</button>
+    <button id="cancelBtn" disabled>Cancel Delay</button>
+    <p id="status"></p>
+
+    <script>
+      class CancellablePromise extends Promise {
+        constructor(executor) {
+          let cancelFn;
+          super((resolve, reject) => {
+            cancelFn = () => reject("cancelled");
+            executor(resolve, reject);
+          });
+          this.cancel = cancelFn;
+        }
+      }
+
+      function delay(interval) {
+        return new CancellablePromise((resolve) => {
+          const timeoutId = setTimeout(resolve, interval);
+          return () => {
+            clearTimeout(timeoutId);
+          };
+        });
+      }
+
+      const startBtn = document.getElementById("startBtn");
+      const cancelBtn = document.getElementById("cancelBtn");
+      const status = document.getElementById("status");
+      let currentDelay;
+
+      startBtn.addEventListener("click", () => {
+        status.textContent = "Delay started...";
+        startBtn.disabled = true;
+        cancelBtn.disabled = false;
+
+        currentDelay = delay(5000);
+        currentDelay
+          .then(() => {
+            status.textContent = "Delay completed successfully!";
+          })
+          .catch((error) => {
+            status.textContent = `Delay ${error}`;
+          })
+          .finally(() => {
+            startBtn.disabled = false;
+            cancelBtn.disabled = true;
+          });
+      });
+
+      cancelBtn.addEventListener("click", () => {
+        if (currentDelay) {
+          currentDelay.cancel();
+        }
+      });
+    </script>
+  </body>
+</html>

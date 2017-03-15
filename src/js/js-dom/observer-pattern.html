@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Price Observer</title>
+  </head>
+  <body>
+    <h1>Stock Price Observer</h1>
+    <div id="stockPrice"></div>
+
+    <script>
+      class Observable {
+        constructor() {
+          this.observers = [];
+        }
+
+        subscribe(observer) {
+          this.observers.push(observer);
+        }
+
+        unsubscribe(observer) {
+          this.observers = this.observers.filter((o) => o !== observer);
+        }
+
+        notify(data) {
+          this.observers.forEach((observer) => observer.update(data));
+        }
+      }
+
+      class StockPriceSubject extends Observable {
+        constructor() {
+          super();
+          this.price = 0;
+        }
+
+        setPrice(price) {
+          this.price = price;
+          this.notify(this.price);
+        }
+      }
+
+      class StockPriceObserver {
+        constructor(elementId) {
+          this.element = document.getElementById(elementId);
+        }
+
+        update(price) {
+          this.element.textContent = `Current Stock Price: $${price.toFixed(
+            2
+          )}`;
+        }
+      }
+
+      const subject = new StockPriceSubject();
+      const observer = new StockPriceObserver("stockPrice");
+      subject.subscribe(observer);
+
+      function updatePrice() {
+        const newPrice = Math.random() * 100;
+        subject.setPrice(newPrice);
+      }
+
+      setInterval(updatePrice, 1000);
+    </script>
+  </body>
+</html>

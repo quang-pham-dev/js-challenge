@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create New Instance in JS</title>
+  </head>
+  <body>
+    <h1>Create New Instance in JS</h1>
+    <button id="createBtn">Create New Instance</button>
+    <div id="output"></div>
+
+    <script type="text/javascript">
+      class Person {
+        constructor(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+
+        introduce() {
+          return `Hi, I'm ${this.name} and I'm ${this.age} years old.`;
+        }
+      }
+
+      document
+        .getElementById("createBtn")
+        .addEventListener("click", function () {
+          const name = prompt("Enter name:");
+          let age;
+          do {
+            age = parseInt(prompt("Enter age (must be a number):"));
+          } while (isNaN(age));
+
+          const newPerson = new Person(name, age);
+
+          const outputDiv = document.getElementById("output");
+          outputDiv.innerHTML += `<p>${newPerson.introduce()}</p>`;
+        });
+    </script>
+  </body>
+</html>

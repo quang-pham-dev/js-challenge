@@ -22,6 +22,12 @@ Dive into building a robust event system with TypeScript's type safety features.
 
 Explore the performance differences between JavaScript's Array and Set data structures and learn how to optimize your code for better performance.
 
+### 4. JavaScript Core Concepts
+
+[Details](src/js/Readme.md)
+
+Practice essential JavaScript concepts including closures, event loops, higher-order functions, hoisting, scope, and the 'this' keyword. Each topic includes practical examples and explanations to deepen your understanding of JavaScript fundamentals.
+
 ### Getting Started
 
 1. Clone the repository
