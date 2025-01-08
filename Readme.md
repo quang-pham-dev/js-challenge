@@ -1,125 +1,34 @@
-# TypeScript Decorators Challenge 🚀
+# JS-TS Challenges 🚀
 
-## Overview
+This repository contains a collection of JavaScript and TypeScript challenges designed to explore and demonstrate advanced concepts and patterns in modern JS/TS development.
 
-This repository contains a comprehensive exploration of TypeScript decorators, demonstrating their powerful capabilities in modern TypeScript development. Decorators provide a way to add both annotations and metadata to existing code in a clean and declarative manner.
+## Challenges
 
-## Types of Decorators Covered
+### 1. Decorators
 
-### 1. Class Decorators
+[Details](src/decorators/Readme.md)
 
-Class decorators allow you to observe, modify, or replace class definitions. They are declared just before class declarations and can be used to:
+Explore TypeScript decorators and their powerful capabilities in modern TypeScript development. Learn how to use decorators for classes, methods, properties, and parameters to enhance your code with metadata and behavior modifications.
 
-- Modify class construction behavior
-- Add new properties or methods
-- Implement logging or tracking
-- Apply design patterns systematically
+### 2. Type Safe Events
 
-Example use case:
+[Details](src/events/Readme.md)
 
-```typescript
-@injectable()
-@singleton()
-class UserService {
-  // Service implementation
-}
-```
+Dive into building a robust event system with TypeScript's type safety features. Learn how to implement and use type-safe event emitters, listeners, and decorators to create a reliable event-driven architecture.
 
-### 2. Method Decorators
+## Getting Started
 
-Method decorators are applied to methods within a class, enabling you to:
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Navigate to specific challenge directories to learn more about each topic.
 
-- Monitor, modify, or replace method definitions
-- Add validation logic
-- Implement caching
-- Handle logging and performance monitoring
-- Add authorization checks
+## Contributing
 
-Example use case:
+Contributions are welcome! Feel free to submit a Pull Request to add new challenges or improve existing ones.
 
-```typescript
-class TaskController {
-  @log()
-  @validate()
-  public async createTask(task: Task) {
-    // Method implementation
-  }
-}
-```
+## License
 
-### 3. Property Decorators
-
-Property decorators help you intercept property definitions and are useful for:
-
-- Implementing validation rules
-- Adding computed properties
-- Setting up automatic serialization
-- Managing observables
-
-Example use case:
-
-```typescript
-class User {
-  @required()
-  @minLength(3)
-  public username: string;
-}
-```
-
-### 4. Parameter Decorators
-
-Parameter decorators allow you to decorate parameters in method declarations, perfect for:
-
-- Dependency injection
-- Parameter validation
-- Parameter transformation
-- Custom binding behavior
-
-Example use case:
-
-```typescript
-class UserController {
-  public getUser(@param() id: string) {
-    // Method implementation
-  }
-}
-```
-
-### 5. Authentication Decorators
-
-Authentication decorators provide a clean way to implement security in your API endpoints:
-
-- Role-based access control
-- JWT validation
-- Session management
-- Custom authorization rules
-
-Example use case:
-
-```typescript
-class SecureController {
-  @authenticate()
-  @roles(["admin"])
-  public sensitiveOperation() {
-    // Secure operation implementation
-  }
-}
-```
-
-Project Structure
-
-```bash
-src/
-├── decorators/
-│ ├── base/
-│ ├── auth/
-│ ├── .../
-├── examples/
-└── tests/
-```
-
-Getting Started
-
-1. Clone the repository: `git clone https://github.com/quangphamdev/js-challenge.git`
-
-2. Install dependencies: `npm install`
+This project is licensed under the MIT License - see the LICENSE file for details.
