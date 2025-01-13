@@ -16,7 +16,13 @@ Explore TypeScript decorators and their powerful capabilities in modern TypeScri
 
 Dive into building a robust event system with TypeScript's type safety features. Learn how to implement and use type-safe event emitters, listeners, and decorators to create a reliable event-driven architecture.
 
-## Getting Started
+### 3. Array - Set performance
+
+[Details](src/perfomance/Readme.md)
+
+Explore the performance differences between JavaScript's Array and Set data structures and learn how to optimize your code for better performance.
+
+### Getting Started
 
 1. Clone the repository
 2. Install dependencies:
